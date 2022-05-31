@@ -1,5 +1,5 @@
 # Assignment-1
-* IT WAS TOLD TO TO MAKE A SEPARATE FILE, 'NOT' A REPOSITORY SO THERE WOULD BE FILES WHICH WERE USED FOR RECRUITMENT.
+* IT WAS TOLD TO TO MAKE A SEPARATE FOLDER, 'NOT' A REPOSITORY SO THERE WOULD BE FILES WHICH WERE USED FOR RECRUITMENT.
 ### 1.About this project
 -----------------------------------
 This program uploaded here calculates the minimum number which should be appended at the end of "iitk"( e.g if we append 184519 to "iitk", it becomes "iitk184519")
