@@ -14,3 +14,20 @@ Any online or offline pyhton compiler would suffice the need of executing the pr
 -----------------
 It has a string as a reference which it uses to find the required number which would be appended to "iitk" so that it becomes less than that reference number.<br />
 The problem is solved using string manipulation, i.e. by checking the number of zeros required at the front. The no. of zeros is taken as input.
+### To demonstrate the power of this hashing
+Execution time and the required value are as follows:
+
+|Number of zeros (input) |Execution time(s) |Number to be appended  |
+|---|---|---|
+|0 |0 |0 |
+|1 |0 |15 |
+|2 |0 |338 |
+|3 |0 |4514 |
+|4 |0 |184519 |
+|5 |2 |1217060 |
+|6 |56 |25617258 |
+|7 |102 |46903559 |
+
+* The rate if increase of execution time with number of zeros is clearly very high.
+
+
