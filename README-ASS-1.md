@@ -12,9 +12,5 @@ Any online or offline pyhton compiler would suffice the need of executing the pr
 
 ### 3.About the code
 -----------------
-It has a string as a reference which it uses to find the required number which would be appended to "iitk" so that it becomes less than that reference number.
-The program converts both, the reference and the changing "iitk" string to the corresponding decimal forms owing to the large computational power of python.<br />
-Then it compares the two integers and when the changing "iitk" string becomes less than the reference string, it stops the process and outputs the value of 
-the required number to be appended.<br /><br />
-Also, the problem could have been solved by string manipulation, but I wanted to implement the hex-to-dec converter to highlight the fact that we are dealing 
-with hexadecimal numbers
+It has a string as a reference which it uses to find the required number which would be appended to "iitk" so that it becomes less than that reference number.<br />
+The problem is solved using string manipulation, i.e. by checking the number of zeros required at the front. The no. of zeros is taken as input.
