@@ -29,4 +29,4 @@ Execution time and the required value are as follows:
 |7 |102 |46903559 |
 
 * The rate if increase of execution time with number of zeros is clearly very high.
-* The time is calculated using google colaboratory.
+* The time is calculated by running the program on google colaboratory.
