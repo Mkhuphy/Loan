@@ -30,4 +30,4 @@ Execution time and the required value are as follows:
 
 * The rate if increase of execution time with number of zeros is clearly very high.
 * The time is calculated by running the program on google colaboratory.
-* The last line states the time elapsed in execution of the program excluding the time taken in input part.
+* The last line states the time elapsed in execution of the program excluding the time taken in the input part.
