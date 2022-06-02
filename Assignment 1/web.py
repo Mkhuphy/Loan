@@ -1,9 +1,10 @@
 import hashlib
+import time
 
 i = 0
 c = 0
 inpt=int(input())
-
+s=time.time()
 def hexa(st2):
     hex = 0
 
@@ -24,6 +25,7 @@ while (c == 0):
 
     if vst1 >= inpt:
         c += 1
-
+e=time.time()
 print(i - 1)
+print("Time elapsed= "+str(e-s))
 
