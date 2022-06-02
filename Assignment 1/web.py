@@ -2,7 +2,7 @@ import hashlib
 
 i = 0
 c = 0
-
+inpt=int(input())
 
 def hexa(st2):
     hex = 0
@@ -22,7 +22,7 @@ while (c == 0):
     st1 = hashlib.sha256(st.encode('utf-8')).hexdigest()
     vst1 = hexa(st1)
 
-    if vst1 >= 4:
+    if vst1 >= inpt:
         c += 1
 
 print(i - 1)
