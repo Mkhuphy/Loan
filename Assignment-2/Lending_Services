@@ -41,7 +41,6 @@ contract Loan is MetaCoin {
 
     event OwnerCreation(address indexed Owner0, address indexed Owner1);
 
-    address public _to;
     modifier isOwner() {
         // Implement a modifier to allow only the owner of the contract to use specific functions
         require(msg.sender==Owner,"Caller is not the Owner");
@@ -51,13 +50,12 @@ contract Loan is MetaCoin {
     constructor() public {
 
         Owner=msg.sender;
-        console.log("The owner is the message sender. The message was sent by:",msg.sender);
-        emit OwnerCreation(address(0),owner);
+        emit OwnerCreation(address(0),Owner);
         // Make the creator of the contract the Owner.
         // You can take the help of 2_owner.sol contract in remix for this and the above function. 
     }
     
-    function ChangeOwner(address Owner1, address Owner1) public isOwner{
+    function ChangeOwner( address Owner1) private isOwner{
         emit OwnerCreation(Owner, Owner1);
         Owner=Owner1;
     }
@@ -70,8 +68,10 @@ contract Loan is MetaCoin {
         // https://medium.com/coinmonks/math-in-solidity-part-4-compound-interest-512d9e13041b just read the periodic compounding part and
         // https://medium.com/coinmonks/math-in-solidity-part-3-percents-and-proportions-4db014e080b1 just read the towards full proportion part.
         // A good way to prevent overflows will be to typecast principle, rate and the big number divider suggested in the above blogs as uint256 variables, just use uint256 R = rate;
-        uint ratio = rate/100;
-        getcompoundinterest( principle, ratio, time);
+        for (uint256 i=0;i<time;i++) {
+          principle += principle* rate/100;
+ }
+ 
     }
     
     function reqLoan(uint256 principle, uint rate, uint time) public returns(bool correct) {
@@ -80,7 +80,7 @@ contract Loan is MetaCoin {
         // Add appropriate definition below to store the loan request of a contract in the loans mapping,
         // Also emit the Request event after succesfully adding to the mapping, and return true. Return false if adding to the mapping failed (maybe the user entered a float rate, there were overflows and toPay comes to be lesser than principle, etc.
         loans[Owner]=toPay;
-        if(loans[Owner]==toPay)
+        if(loans[Owner]<principle)
             return false;
         else{
         emit Request(Owner, principle, rate, time, toPay);
@@ -91,70 +91,23 @@ contract Loan is MetaCoin {
     function getOwnerBalance() public view returns(uint256) {
 				// use the getBalance function of MetaCoin contract to view the Balance of the contract Owner.
 				// hint: how do you access the functions / variables of the parent class in your favorite programming language? It is similar to that in solidity as well!
-		Loan ob=new Loan();
-        sendCoin( _to, loans[_to], Owner);
-        getBalance( Owner);
+		    
+        
+        super.getBalance( Owner);
         }
-    function viewDues() public isOwner{
-        getBalance( Owner);
+    function viewDues() private isOwner view returns(uint256){
+        return loans[Owner];
+    }
+    function settleDues(address _to) private isOwner returns(bool sufficient)
+    {
+      
+      if(sendCoin(_to,loans[Owner],Owner)){
+      loans[Owner]=0;
+      return true;
+      }
+      else
+      return false;
     }
     // implement viewDues and settleDues which allow *ONLY* the owner to *view* and *settle* his loans respectively. They take in the address of a creditor as arguments. viewDues returns a uint256 corresponding to the due amount, and does not modify any state variables. settleDues returns a bool, true if the dues were settled and false otherwise. Remember to set the the pending loan to 0 after settling the dues.
     // use sendCoin function of MetaCoin contract to send the coins required for settling the dues.
- function fullMul (uint x, uint y)
-public pure returns (uint l, uint h)
-{
-  uint mm = mulmod (x, y, uint (-1));
-  l = x * y;
-  h = mm - l;
-  if (mm < l) h -= 1;
-}
-
-function mulDiv (uint x, uint y, uint z)
-public pure returns (uint) {
-  (uint l, uint h) = fullMul (x, y);
-  require (h < z);
-  uint mm = mulmod (x, y, z);
-  if (mm > l) h -= 1;
-  l -= mm;
-  uint pow2 = z & -z;
-  z /= pow2;
-  l /= pow2;
-  l += h * ((-pow2) / pow2 + 1);
-  uint r = 1;
-  r *= 2 - z * r;
-  r *= 2 - z * r;
-  r *= 2 - z * r;
-  r *= 2 - z * r;
-  r *= 2 - z * r;
-  r *= 2 - z * r;
-  r *= 2 - z * r;
-  r *= 2 - z * r;
-  return l * r;
-}
-function pow (int128 x, uint n)
-public pure returns (int128 r) {
-  r = ABDKMath64x64.fromUInt (1);
-  while (n > 0) {
-    if (n % 2 == 1) {
-      r = ABDKMath64x64.mul (r, x);
-      n -= 1;
-    } else {
-      x = ABDKMath64x64.mul (x, x);
-      n /= 2;
-    }
-  }
-}
-function getcompoundinterest (uint principal, uint ratio, uint n)
-public pure returns (uint) {
-  return ABDKMath64x64.mulu (
-    pow (
-      ABDKMath64x64.add (
-        ABDKMath64x64.fromUInt (1), 
-        ABDKMath64x64.divu (
-          ratio,
-          10**18)),
-      n),
-    principal);
-}
-
 }
