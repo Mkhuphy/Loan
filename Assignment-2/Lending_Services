@@ -61,10 +61,11 @@ contract Loan is MetaCoin {
     		// Anyone should be able to use this function to calculate the amount of Compound interest for given P, R, T
         // Solidity does not have a good support for fixed point numbers so we input the rate as a uint
         // A good way to prevent overflows will be to typecast principle, rate and the big number divider suggested in the above blogs as uint256 variables, just use uint256 R = rate;
+        uint256 ci=principle;
         for (uint256 i=0;i<time;i++) {
-          principle +=  principle * (100 + rate)**time;
+          ci = ci + ci * rate/100;
  }
- 
+ return ci-principle;
     }
     
     function reqLoan(uint256 principle, uint rate, uint time) public returns(bool correct) {
@@ -76,7 +77,7 @@ contract Loan is MetaCoin {
         if(loans[Owner]<principle)
             return false;
         else{
-        emit Request(Owner, principle, rate, time, toPay);
+        emit Request(Owner, principle, rate, time,toPay);
         return true;
         }
     }
@@ -86,7 +87,7 @@ contract Loan is MetaCoin {
 				// hint: how do you access the functions / variables of the parent class in your favorite programming language? It is similar to that in solidity as well!
 		    
         
-        super.getBalance( Owner);
+        return getBalance(Owner);
         }
     function viewDues() public isOwner view returns(uint256){
         return loans[Owner];
